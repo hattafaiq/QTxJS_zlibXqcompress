@@ -2,7 +2,7 @@
 simulasi kompresi internal qt to zlib<br />
 LZ77 compression <br />
 ******DEFLATE Compressed Data Format Specification***** <br />
-                          /\              Symbol    Code <br />
+......................    /\..............Symbol    Code <br />
                          0  1             ------    ---- <br />
                         /    \                A      00  <br />
                        /\     B               B       1  <br /> 
