@@ -3,12 +3,18 @@
 #include <QDebug>
 #include <QByteArray>
 #include "strc.h"
-
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
+#include <QFile>
 
 class pars
 {
 public:
     pars();
+    void parsing();
+    int buka_list_file(QString line);
 };
 
 #endif // PARS_H

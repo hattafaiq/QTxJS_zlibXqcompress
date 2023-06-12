@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_QML_DEBUG -DQT_CORE_LIB
+DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../split_parsing -I. -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../split_parsing -I. -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++
 QMAKE         = /opt/Qt5.12.12/5.12.12/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = split_parsing1.0.0
 DISTDIR = /home/fh/kompres/build-split_parsing-Desktop_Qt_5_12_12_GCC_64bit-Debug/.tmp/split_parsing1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt5.12.12/5.12.12/gcc_64/lib
-LIBS          = $(SUBLIBS) /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Core.so -lpthread   
+LIBS          = $(SUBLIBS) /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Widgets.so /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Gui.so /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -53,9 +53,16 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../split_parsing/main.cpp \
-		../split_parsing/pars.cpp 
+		../split_parsing/pars.cpp \
+		../split_parsing/tampil.cpp \
+		../split_parsing/treesub.cpp moc_tampil.cpp \
+		moc_treesub.cpp
 OBJECTS       = main.o \
-		pars.o
+		pars.o \
+		tampil.o \
+		treesub.o \
+		moc_tampil.o \
+		moc_treesub.o
 DIST          = /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/common/unix.conf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/common/linux.conf \
@@ -241,6 +248,8 @@ DIST          = /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/qt.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/resources.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/moc.prf \
+		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/unix/opengl.prf \
+		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/uic.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/unix/thread.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/qmake_use.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/file_copies.prf \
@@ -249,8 +258,12 @@ DIST          = /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/lex.prf \
 		../split_parsing/split_parsing.pro ../split_parsing/pars.h \
-		../split_parsing/strc.h ../split_parsing/main.cpp \
-		../split_parsing/pars.cpp
+		../split_parsing/strc.h \
+		../split_parsing/tampil.h \
+		../split_parsing/treesub.h ../split_parsing/main.cpp \
+		../split_parsing/pars.cpp \
+		../split_parsing/tampil.cpp \
+		../split_parsing/treesub.cpp
 QMAKE_TARGET  = split_parsing
 DESTDIR       = 
 TARGET        = split_parsing
@@ -259,7 +272,7 @@ TARGET        = split_parsing
 first: all
 ####### Build rules
 
-split_parsing:  $(OBJECTS)  
+split_parsing: ui_tampil.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../split_parsing/split_parsing.pro /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++/qmake.conf /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_pre.prf \
@@ -447,6 +460,8 @@ Makefile: ../split_parsing/split_parsing.pro /opt/Qt5.12.12/5.12.12/gcc_64/mkspe
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/qt.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/resources.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/moc.prf \
+		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/unix/opengl.prf \
+		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/uic.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/unix/thread.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/qmake_use.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/file_copies.prf \
@@ -641,6 +656,8 @@ Makefile: ../split_parsing/split_parsing.pro /opt/Qt5.12.12/5.12.12/gcc_64/mkspe
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/qt.prf:
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/resources.prf:
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/moc.prf:
+/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/unix/opengl.prf:
+/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/uic.prf:
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/unix/thread.prf:
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/qmake_use.prf:
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/file_copies.prf:
@@ -664,8 +681,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../split_parsing/pars.h ../split_parsing/strc.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../split_parsing/main.cpp ../split_parsing/pars.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../split_parsing/pars.h ../split_parsing/strc.h ../split_parsing/tampil.h ../split_parsing/treesub.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../split_parsing/main.cpp ../split_parsing/pars.cpp ../split_parsing/tampil.cpp ../split_parsing/treesub.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../split_parsing/tampil.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -697,19 +715,280 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all:
+compiler_moc_header_make_all: moc_tampil.cpp moc_treesub.cpp
 compiler_moc_header_clean:
+	-$(DEL_FILE) moc_tampil.cpp moc_treesub.cpp
+moc_tampil.cpp: ../split_parsing/tampil.h \
+		../split_parsing/pars.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDebug \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QByteArray \
+		../split_parsing/strc.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonDocument \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsondocument.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonvalue.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonObject \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonobject.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonArray \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonarray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonValue \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QStandardItem \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
+		moc_predefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc
+	/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /home/fh/kompres/build-split_parsing-Desktop_Qt_5_12_12_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/home/fh/kompres/split_parsing -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../split_parsing/tampil.h -o moc_tampil.cpp
+
+moc_treesub.cpp: ../split_parsing/treesub.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QTreeView \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtreeview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qrubberband.h \
+		moc_predefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc
+	/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /home/fh/kompres/build-split_parsing-Desktop_Qt_5_12_12_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/home/fh/kompres/split_parsing -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../split_parsing/treesub.h -o moc_treesub.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
+compiler_uic_make_all: ui_tampil.h
+compiler_uic_clean:
+	-$(DEL_FILE) ui_tampil.h
+ui_tampil.h: ../split_parsing/tampil.ui \
+		/opt/Qt5.12.12/5.12.12/gcc_64/bin/uic
+	/opt/Qt5.12.12/5.12.12/gcc_64/bin/uic ../split_parsing/tampil.ui -o ui_tampil.h
+
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
 compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean 
+compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -765,24 +1044,85 @@ main.o: ../split_parsing/main.cpp /opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/Q
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qeventloop.h \
-		../split_parsing/pars.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDebug \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs_win.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qset.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontiguouscache.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qinputmethod.h \
+		../split_parsing/tampil.h \
+		../split_parsing/pars.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDebug \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QByteArray \
-		../split_parsing/strc.h
+		../split_parsing/strc.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonDocument \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsondocument.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonvalue.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonObject \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonobject.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonArray \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonarray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonValue \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QStandardItem \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../split_parsing/main.cpp
 
 pars.o: ../split_parsing/pars.cpp ../split_parsing/pars.h \
@@ -851,8 +1191,311 @@ pars.o: ../split_parsing/pars.cpp ../split_parsing/pars.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QByteArray \
-		../split_parsing/strc.h
+		../split_parsing/strc.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonDocument \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsondocument.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonvalue.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonObject \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonobject.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonArray \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonarray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonValue \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pars.o ../split_parsing/pars.cpp
+
+tampil.o: ../split_parsing/tampil.cpp ../split_parsing/tampil.h \
+		../split_parsing/pars.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDebug \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QByteArray \
+		../split_parsing/strc.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonDocument \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsondocument.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonvalue.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonObject \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonobject.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonArray \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qjsonarray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QJsonValue \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QStandardItem \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qstandarditemmodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
+		ui_tampil.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QVariant \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QApplication \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qeventloop.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QHeaderView \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qheaderview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QMenuBar \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qmenubar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qmenu.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qaction.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QStatusBar \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstatusbar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QTableView \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtableview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QWidget
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tampil.o ../split_parsing/tampil.cpp
+
+treesub.o: ../split_parsing/treesub.cpp ../split_parsing/treesub.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QTreeView \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtreeview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtguiglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtgui-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmargins.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrect.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsize.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpalette.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcolor.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgb.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgba64.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qbrush.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qmatrix.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpolygon.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qregion.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdatastream.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qline.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtransform.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qimage.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixmap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfont.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcursor.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qevent.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurl.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qurlquery.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvector2d.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qicon.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QKeyEvent \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QtDebug
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o treesub.o ../split_parsing/treesub.cpp
+
+moc_tampil.o: moc_tampil.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_tampil.o moc_tampil.cpp
+
+moc_treesub.o: moc_treesub.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_treesub.o moc_treesub.cpp
 
 ####### Install
 
