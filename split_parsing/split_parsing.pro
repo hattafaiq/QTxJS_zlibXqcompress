@@ -1,4 +1,7 @@
-CONFIG += c++11 console gui
+QT +=  sql \
+       core \
+       gui
+CONFIG += c++11 console
 CONFIG -= app_bundle
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../split_parsing -I. -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../split_parsing -I. -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++
 QMAKE         = /opt/Qt5.12.12/5.12.12/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = split_parsing1.0.0
 DISTDIR = /home/fh/kompres/build-split_parsing-Desktop_Qt_5_12_12_GCC_64bit-Debug/.tmp/split_parsing1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt5.12.12/5.12.12/gcc_64/lib
-LIBS          = $(SUBLIBS) /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Widgets.so /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Gui.so /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Widgets.so /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Gui.so /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Sql.so /opt/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -841,9 +841,38 @@ moc_tampil.cpp: ../split_parsing/tampil.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QStandardItem \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qstandarditemmodel.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../split_parsing/treesub.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QTreeView \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtreeview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlQuery \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquery.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qtsqlglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qtsql-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqldatabase.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlError \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlerror.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlDatabase \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlRelationalTableModel \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqltablemodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquerymodel.h \
 		moc_predefs.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc
-	/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /home/fh/kompres/build-split_parsing-Desktop_Qt_5_12_12_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/home/fh/kompres/split_parsing -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../split_parsing/tampil.h -o moc_tampil.cpp
+	/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /home/fh/kompres/build-split_parsing-Desktop_Qt_5_12_12_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/home/fh/kompres/split_parsing -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../split_parsing/tampil.h -o moc_tampil.cpp
 
 moc_treesub.cpp: ../split_parsing/treesub.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QTreeView \
@@ -969,7 +998,7 @@ moc_treesub.cpp: ../split_parsing/treesub.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qrubberband.h \
 		moc_predefs.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc
-	/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /home/fh/kompres/build-split_parsing-Desktop_Qt_5_12_12_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/home/fh/kompres/split_parsing -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../split_parsing/treesub.h -o moc_treesub.cpp
+	/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /home/fh/kompres/build-split_parsing-Desktop_Qt_5_12_12_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/home/fh/kompres/split_parsing -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../split_parsing/treesub.h -o moc_treesub.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1122,7 +1151,36 @@ main.o: ../split_parsing/main.cpp /opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/Q
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qicon.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QStandardItem \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qstandarditemmodel.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../split_parsing/treesub.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QTreeView \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtreeview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qframe.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyleoption.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qvalidator.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregularexpression.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qslider.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractslider.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyle.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabbar.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qrubberband.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlQuery \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquery.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qtsqlglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qtsql-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqldatabase.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlError \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlerror.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlDatabase \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlRelationalTableModel \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqltablemodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquerymodel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../split_parsing/main.cpp
 
 pars.o: ../split_parsing/pars.cpp ../split_parsing/pars.h \
@@ -1328,17 +1386,9 @@ tampil.o: ../split_parsing/tampil.cpp ../split_parsing/tampil.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QStandardItem \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qstandarditemmodel.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
-		ui_tampil.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qheaderview.h \
+		../split_parsing/treesub.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QTreeView \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtreeview.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractitemview.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qframe.h \
@@ -1353,16 +1403,20 @@ tampil.o: ../split_parsing/tampil.cpp ../split_parsing/tampil.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstyle.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtabbar.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qrubberband.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QMenuBar \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qmenubar.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QStatusBar \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstatusbar.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QTableView \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtableview.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QWidget
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlQuery \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquery.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qtsqlglobal.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qtsql-config.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqldatabase.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlError \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlerror.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlDatabase \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlRelationalTableModel \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqltablemodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquerymodel.h \
+		ui_tampil.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QObject
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tampil.o ../split_parsing/tampil.cpp
 
 treesub.o: ../split_parsing/treesub.cpp ../split_parsing/treesub.h \
