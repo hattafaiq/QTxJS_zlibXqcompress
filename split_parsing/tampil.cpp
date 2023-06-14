@@ -40,17 +40,17 @@ Tampil::Tampil(QWidget *parent) :
 //   item0 = assign_icon(this->tree1," ss", 100, 0);
    this->load_aset(0, 0, 0);
 
-    connect(ui->treeView,&TreeSub::emitEmulateDataByClick,this,&Tampil::on_treeView_clicked);
-    ui->treeView->setModel( tree1 );
+//    connect(ui->treeView,&TreeSub::emitEmulateDataByClick,this,&Tampil::on_treeView_clicked);
+//    ui->treeView->setModel( tree1 );
 
-//    connect(ui->treeView_2,&TreeSub::emitEmulateDataByClick,this,&Tampil::on_treeView_clicked);
-//    ui->treeView->setModel( tree2 );
+////    connect(ui->treeView_2,&TreeSub::emitEmulateDataByClick,this,&Tampil::on_treeView_clicked);
+////    ui->treeView->setModel( tree2 );
 
-    this->ui->treeView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    this->ui->treeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+//    this->ui->treeView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+//    this->ui->treeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
-    QModelIndex index = ui->treeView->model()->index(0,0);
-    this->ui->treeView->setCurrentIndex(index);
+//    QModelIndex index = ui->treeView->model()->index(0,0);
+//    this->ui->treeView->setCurrentIndex(index);
 
 //    QModelIndex index2 = ui->treeView_2->model()->index(0,0);
 //    this->ui->treeView_2->setCurrentIndex(index2);
@@ -60,6 +60,48 @@ Tampil::Tampil(QWidget *parent) :
 
     show();
 }
+
+void Tampil::load_aset(QStandardItem *si, int id, int siapa)
+{
+    QTreeView *view   = new QTreeView;
+    QJsonModel *model = new QJsonModel;
+    connect(ui->treeView,&TreeSub::emitEmulateDataByClick,this,&Tampil::on_treeView_clicked);
+    ui->treeView->setModel( model );
+
+    this->ui->treeView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    this->ui->treeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+    QModelIndex index = ui->treeView->model()->index(0,0);
+    this->ui->treeView->setCurrentIndex(index);
+    qDebug()<<"index"<<index;
+    view->setModel(model);
+
+    std::string json = R"({
+                      "DBE":
+                      {
+                        "marsal":
+                        {
+                          "prodev":
+                           {
+                            "motor1":
+                             {
+                               "Vib. Acc":"exist",
+                               "Vib. Vel":"Null"
+                             },
+                            "motor2":
+                             {
+
+                             }
+                            }
+                        }
+                      }
+                  })";
+
+       model->loadJson(QByteArray::fromStdString(json));
+       QByteArray mjson = model->json();
+       qDebug() << mjson;
+}
+
 
 void Tampil::setup_tampil_hirarki_server()
 {
@@ -202,18 +244,21 @@ void Tampil::refresh_data(QString a)
 
 void Tampil::on_treeView_clicked(QModelIndex index)
 {
-qDebug()<<" -- tree click --";
+qDebug()<<" -- tree click --" << index;
 }
 
 void Tampil::on_treeView_expanded(QModelIndex index)
 {
-    qDebug()<<" -- expand --";
+    qDebug()<<" -- expand --" << index;
+    qDebug()<<index.column()<<index.data()<<index.model();
+
 }
 
 void Tampil::on_treeView_activated(QModelIndex index)
 {
 
-qDebug()<<" -- tree active --";
+qDebug()<<" -- tree active --" << index;
+
 }
 
 void Tampil::re_write()
@@ -441,175 +486,6 @@ void Tampil::load_param(QStandardItem *si, int id_aset, int siapa)
 
         }
     }
-}
-
-void Tampil::load_aset(QStandardItem *si, int id, int siapa)
-{
-
-//    while(counter<=4){
-//        counter++;
-//    QStandardItem* item0;
-//    item0 = assign_icon(this->tree1, "cacah[i]", 100,counter);
-//    item0 = assign_icon(this->tree1, "cacah[i]", 800, counter);
-//    item0 = assign_icon(this->tree1, "cacah[0]", 5400, counter);
-//    item0 = assign_icon(this->tree1, "cacah[0]", 5400, counter);
-//    load_aset(item0,counter,1);
-//    }
-   // load_aset(item0,1,1);
-//    QString nama;
-//    int id_kind;
-//    int id_aset;
-//    int id_parent;
-//    int jum_aset = 0;
-//    QString aset;
-//    qDebug("%s() <== id=%d, siapa = %d",__FUNCTION__,id,siapa);// << "(debug 10) masuk ke void load_aset";
-//    QString qu;
-//    QStandardItemModel *r_model = new QStandardItemModel(this);
-//    r_model->setHorizontalHeaderItem(0, new QStandardItem(QString("folder")));
-
-//    QFile file("new/data/NewFile.txt");
-//       if (!file.open(QIODevice::ReadOnly | QIODevice::Text))qDebug()<<"!File";
-//        //           return 1;
-
-//       QTextStream in(&file);
-//       QString line = in.readLine();
-//       QByteArray data;
-//       data+=line;
-////       while (!line.isNull()) {
-////           jum_aset++;
-////           line = in.readLine();
-////           qDebug()<<line;
-////           int row = r_model->rowCount();
-////           row++;
-////           r_model->setItem( row-1, 0, new QStandardItem(line));
-////           int id_kind =100;
-////           QStandardItem* item0;
-////           item0 = (id==0)? assign_icon(this->tree1, line, id_kind, jum_aset) :assign_icon_item( si, line, id_kind, jum_aset);
-////           //load_aset(item0, id_aset, 1);
-////       }
-//       struct t_m masuk;
-//       struct t_info info;
-//       struct t_c *masuk2;
-//       struct t_info* info2;
-//       QVector<int> kind={100,810,5400,5400};
-//       QByteArray hirarki = "comp.pab.DBE.Engine1.=";
-
-//       QByteArray bb = data.mid(hirarki.size(),sizeof (t_m));
-//           masuk2 =(struct t_c *)bb.data();
-//           qDebug() <<"setting:"<< masuk2->gol;
-//       QByteArray bs = data.mid(hirarki.size()+sizeof (t_c),sizeof (t_info));
-//           info2 =(struct t_info *)bs.data();
-
-//       qDebug()<<"data yang nanti dikirim="<<data;
-//       QString olah = (QString )data;
-//       QStringList cacah = olah.split(".");
-//       qDebug() << cacah;
-
-//       for(int i=0; i<cacah.size()-1; i++){
-//           aset = cacah[i];
-//           qDebug() <<"| nama aset " <<cacah[i]<<"|" << kind[i]<<"|";
-//           qDebug()<<"+--------------------------+";
-//           QStandardItem* item0;
-//        //  for(int k=0; k<2; k++){
-//          item0 = assign_icon(this->tree1, cacah[i], kind[i], i);// :assign_icon_item( si, line, kind[i], k);
-//          //}
-
-//           if(i==1)break;
-//          load_aset(item0,i,1);
-
-//       }
-
-//    QSqlQuery Q2( db );
-//    QString nama;
-//    int id_kind;
-//    int id_aset;
-//    int id_parent;
-//    int jum_aset = 0;
-
-//    QString qu;
-
-//    qu = QString("SELECT * FROM aset WHERE id_parent=%1").arg(id);
-//    if(!Q2.exec(qu)) qDebug()<< __FUNCTION__ << __LINE__ << "ERROR : "<<Q2.lastError().text();
-//    else
-//    {
-//        while (Q2.next())
-//        {
-//            jum_aset++;
-//            nama = Q2.value("name").toString();
-//            id_aset = Q2.value("id").toInt();
-//            id_kind = Q2.value("id_kind").toInt();
-//            id_parent = Q2.value("id_parent").toInt();
-//            qDebug()<<nama;
-//            qDebug("id_aset : %d, id_kind : %d, id_parent : %d , id : %d",id_aset,id_kind, id_parent,id);
-//            QStandardItem* item0;
-
-//            item0 = (id==0)? assign_icon(this->tree1, nama, id_kind, id_aset) :assign_icon_item( si, nama, id_kind, id_aset);
-
-//            load_aset(item0, id_aset, 1);
-//            load_param(item0, id_aset,1);
-
-//        }
-
-
-        // sorting dibuat hanya untuk id_kind == 5200 || 5300  RECIP_COMPRESSOR
-
-//        if(id_kind == ID_KIND_RECIP_COMPRESSOR)/*|| id_kind == ID_KIND_COMP_VALVE*/// )
-//            tree1->sort(0, Qt::AscendingOrder);
-
-//        if(id==0)
-//            this->sudah_ada_aset++;
-  // }
-    //QTreeView *tree = new QTreeView;
-//    QVector<int> kind = {100,800,5300};
-//    QVector<int> kind2 = {100,800,5300,5300};
-//    QVector<QString> nama = {"hai","hallo","bay"};
-//    QVector<QString> nama2 = {"hai","hallo","bay","blade"};
-//    int kind_last=0;
-//    QStandardItemModel model(3, 3);
-//    QStandardItem *items;
-//    for (int i = 0; i < kind.size()-1; i++)
-//    {
-//        if(counter ==0)items = new QStandardItem(nama[i]);
-//        counter+=1;
-//        items->appendRow(new QStandardItem(nama[i+1]));
-//        tree1->setItem(0,0,items);
-//     }
-    QTreeView *view   = new QTreeView;
-    QJsonModel *model = new QJsonModel;
-
-    view->setModel(model);
-
-    std::string json = R"({
-                      "firstName": "John",
-                      "lastName": "Smith",
-                      "age": 25,
-                      "far-sighted": true,
-                      "address":
-                      {
-                          "streetAddress": "21 2nd Street",
-                          "city": "New York",
-                          "state": "NY",
-                          "postalCode": "10021"
-                      },
-                      "phoneNumber":
-                      [
-                          {
-                            "type": "home",
-                            "number": "212 555-1234"
-                          },
-                          {
-                            "type": "fax",
-                            "number": "646 555-4567"
-                          }
-                      ],
-                      "DBE":{"dbs":"hallo"}
-                  })";
-
-       model->loadJson(QByteArray::fromStdString(json));
-       view->show();
-
-       QByteArray mjson = model->json();
-       qDebug() << mjson;
 }
 
 void Tampil::on_pushButton_6_clicked()
