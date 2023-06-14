@@ -1,6 +1,5 @@
 #include "pars.h"
 
-int i;
 pars::pars()
 {
 
@@ -68,6 +67,52 @@ void pars::parsing()
             qDebug()<<"+--------------------------+";
         }
         //pemindahan data dari string list ke struct
+}
+
+void pars::buat_file(QString path){
+    QDir dir;
+    // We create the directory if needed
+    if (!dir.exists(path))
+        dir.mkpath(path); // You can check the success if needed
+    QFile file(path + "NewFile.txt");
+    file.open(QIODevice::WriteOnly); // Or QIODevice::ReadWrite
+    //setiap nambah atau kurangi file harus dicatat di log/config
+    struct t_m masuk;
+    struct t_info info;
+    struct t_c *masuk2;
+    struct t_info* info2;
+    info.kind[0]=100;
+    info.kind[1]=200;
+    info.kind[2]=300;
+    info.kind[3]=800;
+    masuk.gol =900;
+
+    char buffTemp[sizeof(t_m)];
+    memcpy(buffTemp, &masuk, sizeof(t_m));
+    QByteArray data1 = QByteArray::fromRawData(buffTemp,sizeof(t_m));
+    char buffTempa[sizeof(t_info)];
+    memcpy(buffTempa, &info, sizeof(t_info));
+    QByteArray infor = QByteArray::fromRawData(buffTempa,sizeof(t_info));
+    QByteArray hirarki = "comp.pab.DBE.Engine1.=";
+    // || aset----- || info kind dll || setting ||
+    data1.push_back(infor);
+    QByteArray data = data1.prepend(hirarki);//datanya
+    if(!file.isOpen())
+    {
+        //alert that file did not open
+    }
+    QTextStream outStream(&file);
+   // outStream << "\n";
+    outStream << data;
+
+    file.close();
+}
+
+void pars::delete_file(QString path){
+    QFile file (path);
+    if(!file.exists())qDebug()<<"data salah";
+    else file.remove();
+    //setiap nambah atau kurangi file harus dicatat di log/config
 }
 
 

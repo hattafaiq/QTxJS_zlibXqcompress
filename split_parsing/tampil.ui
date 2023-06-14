@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>618</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,72 +15,43 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="20" column="0">
+    <item row="24" column="1">
+     <widget class="QLineEdit" name="lineEdit_5"/>
+    </item>
+    <item row="13" column="2">
+     <widget class="QPushButton" name="pushButton_6">
+      <property name="text">
+       <string>New</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QTableView" name="tableView_3"/>
+    </item>
+    <item row="20" column="1">
+     <widget class="QLineEdit" name="lineEdit_3"/>
+    </item>
+    <item row="5" column="0" colspan="3">
+     <widget class="TreeSub" name="treeView"/>
+    </item>
+    <item row="12" column="1">
+     <widget class="QLineEdit" name="lineEdit_2"/>
+    </item>
+    <item row="23" column="0">
      <widget class="QLabel" name="label_7">
       <property name="text">
        <string>hirarki tertinggi</string>
       </property>
      </widget>
     </item>
-    <item row="12" column="3">
+    <item row="12" column="2">
      <widget class="QPushButton" name="pushButton_2">
       <property name="text">
        <string>ReqBaru</string>
       </property>
      </widget>
     </item>
-    <item row="12" column="2">
-     <widget class="QLineEdit" name="lineEdit_2"/>
-    </item>
-    <item row="5" column="4">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Sofhaliza</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" colspan="4">
-     <widget class="Line" name="line">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="3">
-     <widget class="QPushButton" name="pushButton">
-      <property name="text">
-       <string>Upload</string>
-      </property>
-     </widget>
-    </item>
-    <item row="20" column="2">
-     <widget class="QLineEdit" name="lineEdit_4"/>
-    </item>
-    <item row="21" column="2">
-     <widget class="QLineEdit" name="lineEdit_5"/>
-    </item>
-    <item row="10" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>nama data</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="4">
-     <widget class="Line" name="line_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>hirarki tertinggi</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="4">
+    <item row="12" column="3">
      <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -93,88 +64,151 @@
       </property>
      </spacer>
     </item>
-    <item row="2" column="0">
-     <widget class="QTableView" name="tableView"/>
-    </item>
-    <item row="17" column="3">
-     <widget class="QPushButton" name="pushButton_4">
+    <item row="10" column="0">
+     <widget class="QLabel" name="label">
       <property name="text">
-       <string>Upload</string>
+       <string>nama data</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="4">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Server</string>
-      </property>
-     </widget>
-    </item>
-    <item row="10" column="2">
-     <widget class="QLineEdit" name="lineEdit"/>
-    </item>
-    <item row="20" column="3">
-     <widget class="QPushButton" name="pushButton_3">
-      <property name="text">
-       <string>ReqBaru</string>
-      </property>
-     </widget>
-    </item>
-    <item row="17" column="0">
+    <item row="20" column="0">
      <widget class="QLabel" name="label_6">
       <property name="text">
        <string>nama data</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="2" colspan="2">
-     <widget class="QTableView" name="tableView_2"/>
+    <item row="12" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>hirarki tertinggi</string>
+      </property>
+     </widget>
     </item>
-    <item row="15" column="0">
+    <item row="18" column="0">
      <widget class="QTableView" name="tableView_5"/>
     </item>
-    <item row="17" column="2">
-     <widget class="QLineEdit" name="lineEdit_3"/>
+    <item row="6" column="1" colspan="2">
+     <widget class="QTableView" name="tableView_4"/>
     </item>
-    <item row="13" column="0" colspan="4">
-     <widget class="Line" name="line_3">
+    <item row="0" column="0" colspan="3">
+     <widget class="Line" name="line_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
-    <item row="15" column="2" colspan="2">
-     <widget class="QTableView" name="tableView_6"/>
+    <item row="5" column="3">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Sofhaliza</string>
+      </property>
+     </widget>
     </item>
-    <item row="21" column="0">
+    <item row="3" column="0" colspan="3">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="23" column="2">
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="text">
+       <string>ReqBaru</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="0">
+     <widget class="QLabel" name="label_9">
+      <property name="text">
+       <string>Buat file baru</string>
+      </property>
+     </widget>
+    </item>
+    <item row="24" column="0">
      <widget class="QLabel" name="label_8">
       <property name="text">
        <string>Ambil st untuk pengukuran baru</string>
       </property>
      </widget>
     </item>
-    <item row="15" column="4">
-     <widget class="QLabel" name="label_5">
+    <item row="2" column="0">
+     <widget class="QTableView" name="tableView"/>
+    </item>
+    <item row="10" column="1">
+     <widget class="QLineEdit" name="lineEdit"/>
+    </item>
+    <item row="2" column="3">
+     <widget class="QLabel" name="label_4">
       <property name="text">
-       <string>Haliza</string>
+       <string>Server</string>
       </property>
      </widget>
     </item>
-    <item row="21" column="3">
+    <item row="18" column="1" colspan="2">
+     <widget class="QTableView" name="tableView_6"/>
+    </item>
+    <item row="10" column="2">
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>Upload</string>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="1">
+     <widget class="QLineEdit" name="lineEdit_6"/>
+    </item>
+    <item row="24" column="2">
      <widget class="QPushButton" name="pushButton_5">
       <property name="text">
        <string>ReqBaru</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
-     <widget class="QTableView" name="tableView_3"/>
+    <item row="20" column="2">
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="text">
+       <string>Upload</string>
+      </property>
+     </widget>
     </item>
-    <item row="5" column="0" colspan="4">
-     <widget class="TreeSubwin" name="treeView"/>
+    <item row="16" column="0" colspan="3">
+     <widget class="Line" name="line_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
     </item>
-    <item row="6" column="2" colspan="2">
-     <widget class="QTableView" name="tableView_4"/>
+    <item row="23" column="1">
+     <widget class="QLineEdit" name="lineEdit_4"/>
+    </item>
+    <item row="2" column="1" colspan="2">
+     <widget class="QTableView" name="tableView_2"/>
+    </item>
+    <item row="18" column="3">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Haliza</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="0">
+     <widget class="QLabel" name="label_10">
+      <property name="text">
+       <string>delete file</string>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="1">
+     <widget class="QLineEdit" name="lineEdit_7"/>
+    </item>
+    <item row="14" column="2">
+     <widget class="QPushButton" name="pushButton_7">
+      <property name="text">
+       <string>delete</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -192,9 +226,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TreeSubwin</class>
+   <class>TreeSub</class>
    <extends>QTreeView</extends>
-   <header>treesubwin.h</header>
+   <header>treesub.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -69,8 +69,7 @@ void TreeSub::keyPressEvent(QKeyEvent *event) {
         }
       }
       setCurrentIndex(newidx);
-      modelsel->select(newidx, QItemSelectionModel::ClearAndSelect |
-                                   QItemSelectionModel::Rows);
+      modelsel->select(newidx, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
       // emitEmulateDataByClick(newidx);
       event->accept();
     }

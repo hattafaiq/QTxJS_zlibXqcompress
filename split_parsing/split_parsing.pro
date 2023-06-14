@@ -13,7 +13,8 @@ SOURCES += \
         main.cpp \
         pars.cpp \
         tampil.cpp \
-        treesub.cpp
+        treesub.cpp \
+        qjsonmodel.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -24,7 +25,8 @@ HEADERS += \
     pars.h \
     strc.h \
     tampil.h \
-    treesub.h
+    treesub.h \
+    qjsonmodel.h
 
 FORMS += \
     tampil.ui

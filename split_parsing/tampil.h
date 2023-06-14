@@ -4,10 +4,18 @@
 #include <QMainWindow>
 #include <QStandardItem>
 #include "treesub.h"
+//#include "strc.h"
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlDatabase>
 #include <QSqlRelationalTableModel>
+#include <QAbstractItemModel>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QIcon>
+#include "qjsonmodel.h"
 
 namespace Ui {
 class Tampil;
@@ -51,6 +59,10 @@ private slots:
 
     void on_pushButton_5_clicked();
 
+    void on_pushButton_6_clicked();
+
+    void on_pushButton_7_clicked();
+
 private:
     Ui::Tampil *ui;
     QAction *hapus;
@@ -63,12 +75,16 @@ private:
     void setup_tampil_hirarki_server();
     void setup_tampil_hirarki_sofhaliza();
     void setup_tampil_hirarki_haliza();
+
      QStandardItemModel *tree1;
+     //QStandardItemModel *tree2;
+
      int sudah_ada_aset;
      QSqlDatabase db;
      QString con_name;
      QSqlQuery *pQ;
      QSqlRelationalTableModel *r_model;
+     int counter=0;
 
 };
 

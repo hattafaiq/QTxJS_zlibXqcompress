@@ -8,16 +8,19 @@ Tampil::Tampil(QWidget *parent) :
     ui(new Ui::Tampil)
 {
     ui->setupUi(this);
-    menu_tgl = new QMenu( ui->tableView_2 );
-    ui->tableView_2->setContextMenuPolicy(Qt::ActionsContextMenu);
+
     this->setWindowTitle("Simulasi Upload Data");
     this->setMaximumSize(600,600);
+
+    menu_tgl = new QMenu( ui->tableView_2 );
+    ui->tableView_2->setContextMenuPolicy(Qt::ActionsContextMenu);
     hapus = new QAction(tr("hapus data"), menu_tgl);
     ui->tableView_2->addAction( hapus );
     QObject::connect( hapus, SIGNAL(triggered()), this, SLOT(hapus_data()));
     setup_tampil_hirarki_server();
-    tree1 = new QStandardItemModel();
 
+    tree1 = new QStandardItemModel();
+    //tree2 = new QStandardItemModel();
     QString filename = "cp_data.dbb";
     QString con_name;
     con_name = QString("LOC_DB%1").arg(1);
@@ -33,10 +36,15 @@ Tampil::Tampil(QWidget *parent) :
         qDebug()<<"buka db";
     }
 
+//   QStandardItem * item0;
+//   item0 = assign_icon(this->tree1," ss", 100, 0);
    this->load_aset(0, 0, 0);
 
     connect(ui->treeView,&TreeSub::emitEmulateDataByClick,this,&Tampil::on_treeView_clicked);
     ui->treeView->setModel( tree1 );
+
+//    connect(ui->treeView_2,&TreeSub::emitEmulateDataByClick,this,&Tampil::on_treeView_clicked);
+//    ui->treeView->setModel( tree2 );
 
     this->ui->treeView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     this->ui->treeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -44,11 +52,12 @@ Tampil::Tampil(QWidget *parent) :
     QModelIndex index = ui->treeView->model()->index(0,0);
     this->ui->treeView->setCurrentIndex(index);
 
-    setup_tampil_hirarki_sofhaliza();
-    setup_tampil_hirarki_haliza();
-//    qwerty  "LOC_DB1"
-//    lok  "/home/fh/SoftHaliza_series/db_test/rotating haliza.dbb"
-    //load_aset(0,0,0);
+//    QModelIndex index2 = ui->treeView_2->model()->index(0,0);
+//    this->ui->treeView_2->setCurrentIndex(index2);
+
+    //setup_tampil_hirarki_sofhaliza();
+    //setup_tampil_hirarki_haliza();
+
     show();
 }
 
@@ -193,17 +202,18 @@ void Tampil::refresh_data(QString a)
 
 void Tampil::on_treeView_clicked(QModelIndex index)
 {
-
+qDebug()<<" -- tree click --";
 }
 
 void Tampil::on_treeView_expanded(QModelIndex index)
 {
-
+    qDebug()<<" -- expand --";
 }
 
 void Tampil::on_treeView_activated(QModelIndex index)
 {
 
+qDebug()<<" -- tree active --";
 }
 
 void Tampil::re_write()
@@ -435,50 +445,186 @@ void Tampil::load_param(QStandardItem *si, int id_aset, int siapa)
 
 void Tampil::load_aset(QStandardItem *si, int id, int siapa)
 {
-//    QString filename = "cp_data.dbb";
-//    con_name = "LOC_DB1";
-//   // db = QSqlDatabase::database( con_name );
-//    db =QSqlDatabase::addDatabase("QSQLITE",con_name);
-//    db.setDatabaseName(filename);
-    qDebug("%s() <== id=%d, siapa = %d",__FUNCTION__,id,siapa);// << "(debug 10) masuk ke void load_aset";
-    QSqlQuery Q2( db );
-    QString nama;
-    int id_kind;
-    int id_aset;
-    int id_parent;
-    int jum_aset = 0;
 
-    QString qu;
+//    while(counter<=4){
+//        counter++;
+//    QStandardItem* item0;
+//    item0 = assign_icon(this->tree1, "cacah[i]", 100,counter);
+//    item0 = assign_icon(this->tree1, "cacah[i]", 800, counter);
+//    item0 = assign_icon(this->tree1, "cacah[0]", 5400, counter);
+//    item0 = assign_icon(this->tree1, "cacah[0]", 5400, counter);
+//    load_aset(item0,counter,1);
+//    }
+   // load_aset(item0,1,1);
+//    QString nama;
+//    int id_kind;
+//    int id_aset;
+//    int id_parent;
+//    int jum_aset = 0;
+//    QString aset;
+//    qDebug("%s() <== id=%d, siapa = %d",__FUNCTION__,id,siapa);// << "(debug 10) masuk ke void load_aset";
+//    QString qu;
+//    QStandardItemModel *r_model = new QStandardItemModel(this);
+//    r_model->setHorizontalHeaderItem(0, new QStandardItem(QString("folder")));
 
-    qu = QString("SELECT * FROM aset WHERE id_parent=%1").arg(id);
-    if(!Q2.exec(qu)) qDebug()<< __FUNCTION__ << __LINE__ << "ERROR : "<<Q2.lastError().text();
-    else
-    {
-        while (Q2.next())
-        {
-            jum_aset++;
-            nama = Q2.value("name").toString();
-            id_aset = Q2.value("id").toInt();
-            id_kind = Q2.value("id_kind").toInt();
-            id_parent = Q2.value("id_parent").toInt();
-            qDebug("id_aset : %d, id_kind : %d, id_parent : %d",id_aset,id_kind, id_parent);
-            QStandardItem* item0;
+//    QFile file("new/data/NewFile.txt");
+//       if (!file.open(QIODevice::ReadOnly | QIODevice::Text))qDebug()<<"!File";
+//        //           return 1;
 
-            item0 = (id==0)? assign_icon(this->tree1, nama, id_kind, id_aset) :assign_icon_item( si, nama, id_kind, id_aset);
+//       QTextStream in(&file);
+//       QString line = in.readLine();
+//       QByteArray data;
+//       data+=line;
+////       while (!line.isNull()) {
+////           jum_aset++;
+////           line = in.readLine();
+////           qDebug()<<line;
+////           int row = r_model->rowCount();
+////           row++;
+////           r_model->setItem( row-1, 0, new QStandardItem(line));
+////           int id_kind =100;
+////           QStandardItem* item0;
+////           item0 = (id==0)? assign_icon(this->tree1, line, id_kind, jum_aset) :assign_icon_item( si, line, id_kind, jum_aset);
+////           //load_aset(item0, id_aset, 1);
+////       }
+//       struct t_m masuk;
+//       struct t_info info;
+//       struct t_c *masuk2;
+//       struct t_info* info2;
+//       QVector<int> kind={100,810,5400,5400};
+//       QByteArray hirarki = "comp.pab.DBE.Engine1.=";
 
-            load_aset(item0, id_aset, 1);
-            load_param(item0, id_aset,1);
+//       QByteArray bb = data.mid(hirarki.size(),sizeof (t_m));
+//           masuk2 =(struct t_c *)bb.data();
+//           qDebug() <<"setting:"<< masuk2->gol;
+//       QByteArray bs = data.mid(hirarki.size()+sizeof (t_c),sizeof (t_info));
+//           info2 =(struct t_info *)bs.data();
 
-        }
-        /// sorting dibuat hanya untuk id_kind == 5200 || 5300  RECIP_COMPRESSOR
+//       qDebug()<<"data yang nanti dikirim="<<data;
+//       QString olah = (QString )data;
+//       QStringList cacah = olah.split(".");
+//       qDebug() << cacah;
 
-        if(id_kind == ID_KIND_RECIP_COMPRESSOR)/*|| id_kind == ID_KIND_COMP_VALVE*/// )
-            tree1->sort(0, Qt::AscendingOrder);
+//       for(int i=0; i<cacah.size()-1; i++){
+//           aset = cacah[i];
+//           qDebug() <<"| nama aset " <<cacah[i]<<"|" << kind[i]<<"|";
+//           qDebug()<<"+--------------------------+";
+//           QStandardItem* item0;
+//        //  for(int k=0; k<2; k++){
+//          item0 = assign_icon(this->tree1, cacah[i], kind[i], i);// :assign_icon_item( si, line, kind[i], k);
+//          //}
 
-        if(id==0)
-            this->sudah_ada_aset++;
-    }
-    if((siapa==0)&& (jum_aset==0))
-        this->sudah_ada_aset=0;
+//           if(i==1)break;
+//          load_aset(item0,i,1);
 
+//       }
+
+//    QSqlQuery Q2( db );
+//    QString nama;
+//    int id_kind;
+//    int id_aset;
+//    int id_parent;
+//    int jum_aset = 0;
+
+//    QString qu;
+
+//    qu = QString("SELECT * FROM aset WHERE id_parent=%1").arg(id);
+//    if(!Q2.exec(qu)) qDebug()<< __FUNCTION__ << __LINE__ << "ERROR : "<<Q2.lastError().text();
+//    else
+//    {
+//        while (Q2.next())
+//        {
+//            jum_aset++;
+//            nama = Q2.value("name").toString();
+//            id_aset = Q2.value("id").toInt();
+//            id_kind = Q2.value("id_kind").toInt();
+//            id_parent = Q2.value("id_parent").toInt();
+//            qDebug()<<nama;
+//            qDebug("id_aset : %d, id_kind : %d, id_parent : %d , id : %d",id_aset,id_kind, id_parent,id);
+//            QStandardItem* item0;
+
+//            item0 = (id==0)? assign_icon(this->tree1, nama, id_kind, id_aset) :assign_icon_item( si, nama, id_kind, id_aset);
+
+//            load_aset(item0, id_aset, 1);
+//            load_param(item0, id_aset,1);
+
+//        }
+
+
+        // sorting dibuat hanya untuk id_kind == 5200 || 5300  RECIP_COMPRESSOR
+
+//        if(id_kind == ID_KIND_RECIP_COMPRESSOR)/*|| id_kind == ID_KIND_COMP_VALVE*/// )
+//            tree1->sort(0, Qt::AscendingOrder);
+
+//        if(id==0)
+//            this->sudah_ada_aset++;
+  // }
+    //QTreeView *tree = new QTreeView;
+//    QVector<int> kind = {100,800,5300};
+//    QVector<int> kind2 = {100,800,5300,5300};
+//    QVector<QString> nama = {"hai","hallo","bay"};
+//    QVector<QString> nama2 = {"hai","hallo","bay","blade"};
+//    int kind_last=0;
+//    QStandardItemModel model(3, 3);
+//    QStandardItem *items;
+//    for (int i = 0; i < kind.size()-1; i++)
+//    {
+//        if(counter ==0)items = new QStandardItem(nama[i]);
+//        counter+=1;
+//        items->appendRow(new QStandardItem(nama[i+1]));
+//        tree1->setItem(0,0,items);
+//     }
+    QTreeView *view   = new QTreeView;
+    QJsonModel *model = new QJsonModel;
+
+    view->setModel(model);
+
+    std::string json = R"({
+                      "firstName": "John",
+                      "lastName": "Smith",
+                      "age": 25,
+                      "far-sighted": true,
+                      "address":
+                      {
+                          "streetAddress": "21 2nd Street",
+                          "city": "New York",
+                          "state": "NY",
+                          "postalCode": "10021"
+                      },
+                      "phoneNumber":
+                      [
+                          {
+                            "type": "home",
+                            "number": "212 555-1234"
+                          },
+                          {
+                            "type": "fax",
+                            "number": "646 555-4567"
+                          }
+                      ],
+                      "DBE":{"dbs":"hallo"}
+                  })";
+
+       model->loadJson(QByteArray::fromStdString(json));
+       view->show();
+
+       QByteArray mjson = model->json();
+       qDebug() << mjson;
 }
+
+void Tampil::on_pushButton_6_clicked()
+{
+    //buat folder/file baru
+    QString data = ui->lineEdit_6->text().toUtf8();
+    qDebug()<<"alamat file="<<data;
+    a.buat_file(data);
+}
+
+
+void Tampil::on_pushButton_7_clicked()
+{
+    QString data = ui->lineEdit_7->text().toUtf8();
+    qDebug()<<"alamat file="<<data;
+    a.delete_file(data);
+}
+
