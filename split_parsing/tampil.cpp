@@ -36,6 +36,10 @@ Tampil::Tampil(QWidget *parent) :
         qDebug()<<"buka db";
     }
 
+    ui->tableView_3->hide();
+    ui->tableView_4->hide();
+    ui->tableView_5->hide();
+    ui->tableView_6->hide();
 //   QStandardItem * item0;
 //   item0 = assign_icon(this->tree1," ss", 100, 0);
    this->load_aset(0, 0, 0);
@@ -99,6 +103,7 @@ void Tampil::load_aset(QStandardItem *si, int id, int siapa)
 
        model->loadJson(QByteArray::fromStdString(json));
        QByteArray mjson = model->json();
+       //model->checkIndex(index);
        qDebug() << mjson;
 }
 
@@ -244,20 +249,58 @@ void Tampil::refresh_data(QString a)
 
 void Tampil::on_treeView_clicked(QModelIndex index)
 {
-qDebug()<<" -- tree click --" << index;
+    qDebug()<<" -- tree click --" << index;
+
+    QString valu;
+    qDebug()<<
+    index.model()->data(index, Qt::DisplayRole).toString();
+    QString sRec = "not valid column";
+    QVariant value = ui->treeView->model()->data(index,0);
+
+    if (value.isValid())
+        sRec = value.toString();
+
+    int row = index.row();
+    QString s = index.sibling(row,0).data().toString();
+    QString dan = index.data().toString();
+    //qDebug()<<sRec << dan <<s;//ini nilai nya sama semua
+    QJsonTreeItem *item = static_cast<QJsonTreeItem *>(index.internalPointer());
+    QJsonTreeItem *parent = item->parent();
+    QJsonTreeItem *parent2;
+    QJsonTreeItem *parent3;
+//    qDebug()<<item->type() <<parent->type();//belum tau ini nomer apa//kalau tipe 3 itu sepertinya value kalau 5 itu object
+//    qDebug()<<item->childCount() <<parent->childCount();//belum tau ini nomer apa
+    QModelIndexList llist;
+
+
+    if(parent->parent()){
+        parent2 = item->parent()->parent();
+        if(parent->key()!="root")qDebug()<<parent->key();
+        if(parent->parent()->key()!="root")qDebug()<<parent->parent()->key();
+        if(parent2->parent()){
+            parent3 = item->parent()->parent()->parent();
+            if(parent2->parent()->key()!="root")qDebug()<<parent2->parent()->key();
+            if(parent3->parent()){
+                if(parent3->parent()->key()!="root")qDebug()<<parent3->parent()->key();}
+        }
+    }
+
+    //qDebug()<<"value="<<item->key();
+
 }
 
 void Tampil::on_treeView_expanded(QModelIndex index)
 {
     qDebug()<<" -- expand --" << index;
     qDebug()<<index.column()<<index.data()<<index.model();
+    qDebug()<<index.data().toJsonArray() << index.data().toJsonDocument() << index.data().toJsonObject() <<index.data().toJsonValue();
 
 }
 
 void Tampil::on_treeView_activated(QModelIndex index)
 {
 
-qDebug()<<" -- tree active --" << index;
+   qDebug()<<" -- tree active --" << index;
 
 }
 
