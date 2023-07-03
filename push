@@ -1,0 +1,4 @@
+git commit -m "data 1k jadi 9byte"
+git add .
+git push -u origin kompres
+

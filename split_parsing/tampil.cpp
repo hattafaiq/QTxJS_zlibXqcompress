@@ -94,9 +94,33 @@ void Tampil::load_aset(QStandardItem *si, int id, int siapa)
                              },
                             "motor2":
                              {
-
+                               "Vib. Acc":"exist",
+                               "Vib. Vel":"Null"
+                             },
+                            "motor3":
+                             {
+                               "Vib. Acc":"exist",
+                               "Vib. Vel":"Null"
+                             }
+                            },
+                           "prodev2":{
+                            "motor1":
+                             {
+                               "Vib. Acc":"exist",
+                               "Vib. Vel":"Null"
+                             },
+                            "motor2":
+                             {
+                               "Vib. Acc":"exist",
+                               "Vib. Vel":"Null"
+                             },
+                            "motor3":
+                             {
+                               "Vib. Acc":"exist",
+                               "Vib. Vel":"Null"
                              }
                             }
+
                         }
                       }
                   })";
