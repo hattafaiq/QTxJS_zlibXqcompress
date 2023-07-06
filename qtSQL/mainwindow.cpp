@@ -26,9 +26,6 @@ int MainWindow::proses_q( QSqlQuery *q, const char *s, ...)
     vsprintf (buf_command, s, args);
     va_end (args);
 
-//    qDebug() << __PRETTY_FUNCTION__ << buf_command;
-    //debug("%s(): %s",__FUNCTION__, buf_command );
-
     if (!q->exec( buf_command ))
     {
         er = q->lastError();
@@ -38,21 +35,12 @@ int MainWindow::proses_q( QSqlQuery *q, const char *s, ...)
     }
     else
     {
-        /* untuk SQLITE harus manual ditunjukkan ke first sebelum bisa dipakai */
-//        q->first();
-
         if(!q->first()){
-            /* handler if query doesn't exist */
             qDebug() << "(debug 58) Querry Error : Data not Found! 2" << q->lastQuery();
-           // setting.dat_avb = 0;
         }
         else{
-//            qDebug() << "(debug 58) Data Found!";
-           // setting.dat_avb = 1;
+           qDebug() << "(debug 58) Data Found!";
         }
-
-        /* SQLITE size juga pasti akan -1 */
-        //debug("%s(): OK, %d row", __FUNCTION__, q->size());
     }
     return 0;
 }
@@ -81,7 +69,6 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     QSqlQuery query(db);
-    counter+=1;
     proses_q(&query, "insert into aset ( name, id_kind, id_parent) values( '%s', %d, %d)", "x", 0, 0);
     if(!query.exec())qDebug()<<"kenapa?"<<query.lastError().text();
 }

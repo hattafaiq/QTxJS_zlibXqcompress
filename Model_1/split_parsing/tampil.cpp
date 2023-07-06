@@ -15,7 +15,7 @@ Tampil::Tampil(QWidget *parent) :
     setup_tampil_hirarki_server();
     setup_tampil_hirarki_sofhaliza();
     setup_tampil_hirarki_haliza();
-
+    flag_kirim =0;
     show();
 }
 
@@ -369,7 +369,10 @@ void Tampil::index_tree_selected(QModelIndex index){
     ui->lineEdit->clear();
     initial_rute.clear();
     cari_induk_param(p_id_aset);
-    susun_data(p_id_aset,p_id_tipe_param);
+    qDebug()<<initial_rute.split('/');
+    QStringList dataList = initial_rute.split('/');
+    data_ini = dataList;
+   // susun_data(p_id_aset,p_id_tipe_param);
 }
 
 QString Tampil::get_table_name(int tipe)
@@ -422,12 +425,13 @@ void Tampil::kirim_data(int id_param, int tipe_data, QByteArray data){
 
     qDebug()<<initial_rute.split('/');
     QStringList dataList = initial_rute.split('/');
-    qDebug()<<dataList;
+  //  qDebug()<<dataList;
     QSqlQuery Q3( dbs );
     QSqlQuery query( dbs );
     int id_parent=0;
     QString qu;
     QString qur;
+    data_ini = dataList;
     for(int i=0; i<dataList.size()-1; i++){
         QString aset_ku = (QString) dataList[i];
         qu = QString("SELECT * FROM aset WHERE name=%1").arg(aset_ku.toUtf8().data());
@@ -446,17 +450,8 @@ void Tampil::kirim_data(int id_param, int tipe_data, QByteArray data){
          }
        }
     }
-//    query.prepare("INSERT INTO aset (name, tag_number, note, id_kind ,id_parent) VALUES(:name, :tag_number, :note, :id_kind, :id_parent)");
-//    query.bindValue(":name", "x");//aset.toUtf8().data());
-//    query.bindValue(":tag_number", "n");
-//    query.bindValue(":note", "n");
-//    query.bindValue(":id_kind", 0);
-//    query.bindValue(":id_parent", 0);
-//    if(!query.exec())qDebug()<<"lapo?" << "ERROR : "<<query.lastError();
-//    proses_q(&query, "insert into aset (name, tag_number, note, id_kind, id_parent) values('%s', '%s', '%s', %d, %d)",
-//             aset_name.toUtf8().data(),tag.toUtf8().data(), note.toUtf8().data(), id_kind, id_parent);
-    proses_q(&query, "insert into aset (name, tag_number, note, id_kind, id_parent) values('%s', '%s', '%s', %d, %d)","x","x", "x", 0, 0);
-    if(!query.exec())qDebug()<<"kenapa?"<<query.lastError().text();
+//    proses_q(&query, "insert into aset (name, tag_number, note, id_kind, id_parent) values('%s', '%s', '%s', %d, %d)","x","x", "x", 0, 0);
+//    if(!query.exec())qDebug()<<"kenapa?"<<query.lastError().text();
 }
 
 
@@ -507,7 +502,6 @@ void Tampil::cari_induk(int p_id_aset){
     QString nama;
     int id_aset_induk;
     int id_parent_ku;
-
     QString qu;
     qu = QString("SELECT * FROM aset WHERE id=%1").arg(p_id_aset);
     if(!Q3.exec(qu)) qDebug()<< __FUNCTION__ << __LINE__ << "ERROR : "<<Q3.lastError().text();
@@ -538,3 +532,84 @@ void Tampil::getAllChildren(QModelIndex idx, QModelIndexList &list)
         getAllChildren(idx.child(i,0), list);
     }
 }
+
+void Tampil::on_pushButton_2_clicked()
+{
+    dbx = QSqlDatabase::addDatabase("QMYSQL");
+    dbx.setHostName("127.0.0.1");
+    dbx.setDatabaseName("test");
+    dbx.setUserName("root");
+    dbx.setPassword("password");
+    //int i=0;
+    if (!dbx.open())
+    {
+      QMessageBox::critical(0, QObject::tr("Database Error"),dbx.lastError().text());
+
+    }else{
+      QMessageBox::information(this,"connected","database masuk");
+      ui->pushButton_2->setText("--connected--");
+    }
+}
+
+
+void Tampil::on_pushButton_clicked()
+{
+    qDebug()<<"kirim trigger";
+    QSqlQuery query1(dbx);
+//    QSqlQuery query2(dbx);
+    int i;
+    int id_parent=0;
+    QStringList kantong_ada;
+    QStringList kantong_tidak;
+    for(i=0; i<data_ini.size()-1; i++){
+        QString aset_ku = (QString) data_ini[i];
+        QString aa;
+        QString bb;
+        aa = QString("SELECT id FROM aset WHERE name='%1'").arg(aset_ku);
+        if(!query1.exec(aa)){qDebug()<<"tidak ada1="<<aset_ku;}
+        if(query1.first()){qDebug()<<"ada="<<aset_ku;
+        id_parent = query1.value("id").toInt();
+        }
+        else {
+          qDebug()<<"tidak ada2="<<aset_ku;
+
+          //id_parent = query1.lastInsertId().toInt();
+          aa = QString("INSERT INTO aset ( name, id_kind, id_parent) VALUES('%1',%2,%3)").arg(aset_ku,QString::number(0),QString::number(id_parent));
+          if(!query1.exec(aa)){qDebug()<<"1gagal simpen"<<aset_ku;}
+          else{while(query1.next())qDebug()<<"1sukses="<<aset_ku;}
+
+          if(query1.first()){qDebug()<<"2sukses="<<aset_ku;}
+          else{qDebug()<<"mulai simpen"<<aset_ku;
+          id_parent = query1.lastInsertId().toInt();}
+        }
+    }
+///--------------------------------------------------------------//
+//    for(i=0; i<data_ini.size()-1; i++){
+//        QString aset_ku = (QString) data_ini[i];
+//        proses_q(&query1, "select * from aset where name='%s'", aset_ku.toUtf8().data());
+//        if(!query1.exec()){
+//           // query1.clear();
+//            proses_q(&query1, "insert into aset ( name, id_kind, id_parent) values( '%s', %d, %d)", aset_ku.toUtf8().data(), 0, id_parent);
+//            //query1.clear();
+//            qDebug()<<"tidak ada="<<aset_ku;
+//        }
+//        else{while(query1.next()){
+//                qDebug()<<"ada="<<query1.value("name").toString();
+//             }}
+//       // query1.clear();
+//       }
+///--------------------------------------------------------------//
+
+    //note kalau bikin button pake flag aja
+    //kalau langsung sql nanti bisa dobel
+
+}
+
+void Tampil::kirim_kedatabase()
+{
+    if(flag_kirim==1){
+
+       // flag_kirim=0;
+    }
+}
+

@@ -10,6 +10,7 @@
 #include <QSqlError>
 #include <QSqlDatabase>
 #include <QSqlRelationalTableModel>
+#include <QMessageBox>
 
 namespace Ui {
 class Tampil;
@@ -43,7 +44,13 @@ private slots:
     void refresh_data(QString a);
 
 
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_clicked();
+
 private:
+    int flag_kirim;
+    void kirim_kedatabase();
     Ui::Tampil *ui;
     QString initial_rute;
     QStringList list_rute;
@@ -72,9 +79,11 @@ private:
      QStandardItemModel *tree2;
      int sudah_ada_aset;
      QSqlDatabase db;
+     QSqlDatabase dbx;
      QString con_name;
      QSqlQuery *pQ;
      QSqlRelationalTableModel *r_model;
+     QStringList data_ini;
 
 };
 
