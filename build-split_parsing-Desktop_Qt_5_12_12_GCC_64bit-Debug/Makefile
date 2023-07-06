@@ -241,7 +241,6 @@ DIST          = /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/qt_config.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_post.prf \
-		../split_parsing/.qmake.stash \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/toolchain.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/default_pre.prf \
@@ -455,7 +454,6 @@ Makefile: ../split_parsing/split_parsing.pro /opt/Qt5.12.12/5.12.12/gcc_64/mkspe
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/qt_config.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/toolchain.prf \
 		/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/default_pre.prf \
@@ -651,7 +649,6 @@ Makefile: ../split_parsing/split_parsing.pro /opt/Qt5.12.12/5.12.12/gcc_64/mkspe
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/qt_config.prf:
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++/qmake.conf:
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_post.prf:
-.qmake.stash:
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/exclusive_builds.prf:
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/toolchain.prf:
 /opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/features/default_pre.prf:
@@ -748,7 +745,6 @@ moc_tampil.cpp: ../split_parsing/tampil.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
-		new \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
@@ -880,6 +876,9 @@ moc_tampil.cpp: ../split_parsing/tampil.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqltablemodel.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquerymodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QAbstractItemModel \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QIcon \
+		../split_parsing/qjsonmodel.h \
 		moc_predefs.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc
 	/opt/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /home/fh/kompres/build-split_parsing-Desktop_Qt_5_12_12_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/home/fh/kompres/split_parsing -I/opt/Qt5.12.12/5.12.12/gcc_64/include -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql -I/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../split_parsing/tampil.h -o moc_tampil.cpp
@@ -908,7 +907,6 @@ moc_treesub.cpp: ../split_parsing/treesub.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
-		new \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtgui-config.h \
@@ -1029,7 +1027,6 @@ moc_qjsonmodel.cpp: ../split_parsing/qjsonmodel.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
-		new \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
@@ -1146,7 +1143,6 @@ ui_tampil.h: ../split_parsing/tampil.ui \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
-		new \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtgui-config.h \
@@ -1278,7 +1274,6 @@ main.o: ../split_parsing/main.cpp /opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/Q
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
-		new \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
@@ -1449,7 +1444,6 @@ pars.o: ../split_parsing/pars.cpp ../split_parsing/pars.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
-		new \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
@@ -1534,7 +1528,6 @@ tampil.o: ../split_parsing/tampil.cpp ../split_parsing/tampil.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
-		new \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
@@ -1666,45 +1659,10 @@ tampil.o: ../split_parsing/tampil.cpp ../split_parsing/tampil.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlrelationaltablemodel.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqltablemodel.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquerymodel.h \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QAbstractItemModel \
+		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/QIcon \
+		../split_parsing/qjsonmodel.h \
 		ui_tampil.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QVariant \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QApplication \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qapplication.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreapplication.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qeventloop.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qguiapplication.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qinputmethod.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QFrame \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QGridLayout \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qgridlayout.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qlayout.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qboxlayout.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QHeaderView \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qheaderview.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QLabel \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QLineEdit \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qlineedit.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtextcursor.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtextformat.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpen.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtextoption.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QMenuBar \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qmenubar.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qmenu.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qaction.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qactiongroup.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QPushButton \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qpushbutton.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QSpacerItem \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QStatusBar \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qstatusbar.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QTableView \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/qtableview.h \
-		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtWidgets/QWidget \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/QObject
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tampil.o ../split_parsing/tampil.cpp
 
@@ -1732,7 +1690,6 @@ treesub.o: ../split_parsing/treesub.cpp ../split_parsing/treesub.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
-		new \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtgui-config.h \
@@ -1853,7 +1810,6 @@ qjsonmodel.o: ../split_parsing/qjsonmodel.cpp ../split_parsing/qjsonmodel.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
-		new \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
 		/opt/Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
