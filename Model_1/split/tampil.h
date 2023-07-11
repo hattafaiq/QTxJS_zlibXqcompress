@@ -38,9 +38,9 @@ public slots:
 
 private slots:
     void on_tableView_clicked(const QModelIndex &index);
-    void hapus_data();
+    //void hapus_data();
     void on_tableView_2_pressed(const QModelIndex &index);
-    void refresh_data(QString a);
+    //void refresh_data(QString a);
 
     void on_PB_connect_clicked();
     void on_PB_kirim_clicked();
@@ -48,6 +48,7 @@ private slots:
     void on_PB_synchron_clicked();
 
 private:
+    QByteArray data_utama;
     int flag_kirim;
     int flag_masukkan_param;
     void kirim1_kedatabase();

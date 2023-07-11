@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../split/tampil.h"
+#include "../compare_synchron/tampil.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Tampil_t {
-    QByteArrayData data[13];
-    char stringdata0[220];
+    QByteArrayData data[4];
+    char stringdata0[54];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,26 +32,13 @@ struct qt_meta_stringdata_Tampil_t {
 static const qt_meta_stringdata_Tampil_t qt_meta_stringdata_Tampil = {
     {
 QT_MOC_LITERAL(0, 0, 6), // "Tampil"
-QT_MOC_LITERAL(1, 7, 19), // "on_treeView_clicked"
-QT_MOC_LITERAL(2, 27, 0), // ""
-QT_MOC_LITERAL(3, 28, 11), // "QModelIndex"
-QT_MOC_LITERAL(4, 40, 5), // "index"
-QT_MOC_LITERAL(5, 46, 20), // "on_treeView_expanded"
-QT_MOC_LITERAL(6, 67, 21), // "on_treeView_activated"
-QT_MOC_LITERAL(7, 89, 20), // "on_tableView_clicked"
-QT_MOC_LITERAL(8, 110, 22), // "on_tableView_2_pressed"
-QT_MOC_LITERAL(9, 133, 21), // "on_PB_connect_clicked"
-QT_MOC_LITERAL(10, 155, 19), // "on_PB_kirim_clicked"
-QT_MOC_LITERAL(11, 175, 21), // "on_PB_compare_clicked"
-QT_MOC_LITERAL(12, 197, 22) // "on_PB_synchron_clicked"
+QT_MOC_LITERAL(1, 7, 21), // "on_pushButton_clicked"
+QT_MOC_LITERAL(2, 29, 0), // ""
+QT_MOC_LITERAL(3, 30, 23) // "on_pushButton_2_clicked"
 
     },
-    "Tampil\0on_treeView_clicked\0\0QModelIndex\0"
-    "index\0on_treeView_expanded\0"
-    "on_treeView_activated\0on_tableView_clicked\0"
-    "on_tableView_2_pressed\0on_PB_connect_clicked\0"
-    "on_PB_kirim_clicked\0on_PB_compare_clicked\0"
-    "on_PB_synchron_clicked"
+    "Tampil\0on_pushButton_clicked\0\0"
+    "on_pushButton_2_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -61,7 +48,7 @@ static const uint qt_meta_data_Tampil[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+       2,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -69,24 +56,10 @@ static const uint qt_meta_data_Tampil[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   59,    2, 0x0a /* Public */,
-       5,    1,   62,    2, 0x0a /* Public */,
-       6,    1,   65,    2, 0x0a /* Public */,
-       7,    1,   68,    2, 0x08 /* Private */,
-       8,    1,   71,    2, 0x08 /* Private */,
-       9,    0,   74,    2, 0x08 /* Private */,
-      10,    0,   75,    2, 0x08 /* Private */,
-      11,    0,   76,    2, 0x08 /* Private */,
-      12,    0,   77,    2, 0x08 /* Private */,
+       1,    0,   24,    2, 0x08 /* Private */,
+       3,    0,   25,    2, 0x08 /* Private */,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 3,    4,
-    QMetaType::Void, 0x80000000 | 3,    4,
-    QMetaType::Void, 0x80000000 | 3,    4,
-    QMetaType::Void, 0x80000000 | 3,    4,
-    QMetaType::Void, 0x80000000 | 3,    4,
-    QMetaType::Void,
-    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -99,18 +72,12 @@ void Tampil::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         auto *_t = static_cast<Tampil *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->on_treeView_clicked((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
-        case 1: _t->on_treeView_expanded((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
-        case 2: _t->on_treeView_activated((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
-        case 3: _t->on_tableView_clicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
-        case 4: _t->on_tableView_2_pressed((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
-        case 5: _t->on_PB_connect_clicked(); break;
-        case 6: _t->on_PB_kirim_clicked(); break;
-        case 7: _t->on_PB_compare_clicked(); break;
-        case 8: _t->on_PB_synchron_clicked(); break;
+        case 0: _t->on_pushButton_clicked(); break;
+        case 1: _t->on_pushButton_2_clicked(); break;
         default: ;
         }
     }
+    Q_UNUSED(_a);
 }
 
 QT_INIT_METAOBJECT const QMetaObject Tampil::staticMetaObject = { {
@@ -142,13 +109,13 @@ int Tampil::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 2;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 2)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 2;
     }
     return _id;
 }

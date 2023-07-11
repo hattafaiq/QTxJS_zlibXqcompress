@@ -15,6 +15,10 @@ struct t_info{
     int kind[4];
 };
 
+struct t_baru{
+    unsigned char nama[400];
+};
+
 int proses_q( QSqlQuery *q, const char *s, ...);
 
 #define ID_KIND_COMPANY             100

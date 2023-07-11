@@ -64,11 +64,6 @@ void Tampil::on_tableView_clicked(const QModelIndex &index)
 
 }
 
-void Tampil::hapus_data()
-{
-
-}
-
 
 void Tampil::on_tableView_2_pressed(const QModelIndex &index)
 {
@@ -76,10 +71,6 @@ void Tampil::on_tableView_2_pressed(const QModelIndex &index)
     index_data_hapus = n_row;
 }
 
-void Tampil::refresh_data(QString a)
-{
-
-}
 
 void Tampil::on_treeView_clicked(QModelIndex index)
 {
@@ -105,11 +96,6 @@ void Tampil::on_treeView_activated(QModelIndex index)
     index_data_hapus = n_row;
     qDebug()<<"index="<<index;
     //ui->lineEdit->clear();
-}
-
-void Tampil::re_write()
-{
-
 }
 
 
@@ -370,7 +356,13 @@ void Tampil::index_tree_selected(QModelIndex index){
     qDebug()<<initial_rute.split('/');
     QStringList dataList = initial_rute.split('/');
     data_ini = dataList;
-   // susun_data(p_id_aset,p_id_tipe_param);
+//    QDataStream dataStreamWrite(&data_utama, QIODevice::WriteOnly);
+//    dataStreamWrite << data_ini;
+//   // QStringList appNameList = appName.split("U");
+
+//   //qDebug()<<"size nama=>"<<sizeof(data_ini)
+//   // susun_data(p_id_aset,p_id_tipe_param);
+//    data_utama.clear();
 }
 
 QString Tampil::get_table_name(int tipe)
@@ -556,7 +548,7 @@ void Tampil::kirim1_kedatabase()
           flag_masukkan_param=1;
 
           //id_parent = query1.lastInsertId().toInt();
-          aa = QString("INSERT INTO aset ( name, id_kind, id_parent) VALUES('%1',%2,%3)").arg(aset_ku,QString::number(0),QString::number(id_parent));
+          aa = QString("INSERT INTO aset ( name, id_kind, id_parent, id_database, id_user) VALUES('%1',%2,%3,%4,%5)").arg(aset_ku,QString::number(0),QString::number(id_parent),QString::number(0),QString::number(0));
           if(!query1.exec(aa)){qDebug()<<"1gagal simpen"<<aset_ku;}
           else{while(query1.next())qDebug()<<"1sukses="<<aset_ku;}
 
@@ -608,7 +600,7 @@ void Tampil::on_PB_connect_clicked()
 
 void Tampil::on_PB_kirim_clicked()
 {
-    kirim1_kedatabase();
+    kirim1_kedatabase();//simulasi mengirim data satuan
 }
 
 
