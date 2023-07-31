@@ -61,7 +61,8 @@ void Tampil::open_db()
     judul1->setText(text1);
     ui->verticalLayout->addWidget(judul1);
     ui->verticalLayout->addLayout(box1);
-    mulai_cari(&buka);
+   // mulai_cari(&buka);
+    mulai_cari2(&buka);
 }
 
 void Tampil::persiapan_server()
@@ -77,12 +78,66 @@ void Tampil::persiapan_server()
     ui->verticalLayout_2->addLayout(box2);
 }
 
+void Tampil::mulai_cari2(QSqlQuery *query)
+{
+    QString qu;
+
+    //QStringList rute_baru;
+            qu = QString("SELECT id,id_param,id_tipe_param,id_rute "
+                 "FROM data_masuk"
+                 " WHERE true");
+    if(!query->exec(qu)) qDebug()<< __FUNCTION__ << __LINE__ << "ERROR : "<<query->lastError().text();
+    else{
+     while(query->next()){
+        qDebug()<<query->value("id").toInt()
+                <<query->value("id_param").toInt()
+                <<query->value("id_tipe_param").toInt()
+                <<query->value("id_rute").toInt();
+        data_[0].push_back(query->value("id").toInt());
+        data_[1].push_back(query->value("id_param").toInt());
+        data_[2].push_back(query->value("id_tipe_param").toInt());
+        data_[3].push_back(query->value("id_rute").toInt());
+     }}
+
+    for(int i=0; i<data_[0].size(); i++){
+  //  qDebug()<<get_table_name(data_[2][i]);
+     qu = QString("SELECT data,data_timestamp "
+                 "FROM %1"
+                 " WHERE id_param=%2 AND id_data_masuk=%3").arg(get_table_name(data_[2][i]),QString::number(data_[1][i]),QString::number(data_[0][i]));
+    if(!query->exec(qu)) qDebug()<< __FUNCTION__ << __LINE__ << "ERROR : "<<query->lastError().text();
+    else{
+     while(query->next()){
+         all_data.append(query->value("data").toByteArray());
+        qDebug()<<"tiem:"<<query->value("data_timestamp").toInt();
+        data_[4].push_back(query->value("data_timestamp").toInt());
+     }}
+    }
+
+    for(int i=0; i<data_[0].size(); i++){
+    qu = QString("SELECT nama_rute "
+                "FROM rute"
+                " WHERE id=%1").arg(QString::number(data_[3][i]));
+   if(!query->exec(qu)) qDebug()<< __FUNCTION__ << __LINE__ << "ERROR : "<<query->lastError().text();
+   else{
+    while(query->next()){
+        rute_baru.push_back(query->value("nama_rute").toString());
+        qDebug()<<"rute:"<<query->value("nama_rute").toString();
+        QString list_nama_asetku;
+         list_nama_asetku+=query->value("nama_rute").toString();//rute[info_tipe_data[0][i]];
+         list_nama_asetku+="/";
+         list_nama_asetku+= QString::number(data_[1][i]);
+         list1 = new QLabel(this);
+         box1->addWidget(list1);
+         list1->setText(list_nama_asetku);
+    }}
+    }
+}
 
 void Tampil::mulai_cari(QSqlQuery *query)
 {
     //cari ada berapa rute
-
     QStringList rute;
+    QString aye;
     QString qu;
     QList<int> RuteList;
     qu = QString("SELECT ALL id, nama_rute, id_date FROM rute WHERE true");
@@ -93,6 +148,8 @@ void Tampil::mulai_cari(QSqlQuery *query)
       //  info_rute[0].push_back(query->value("id").toInt());
         rute.push_back(query->value("nama_rute").toString());
         rute_.push_back(query->value("nama_rute").toString());
+        aye+="/";
+        aye+=query->value("nama_rute").toString();
         //qDebug()<<"list rute"<<query->value("nama_rute").toString() << info_rute[0];
      }}
     //
@@ -100,6 +157,8 @@ void Tampil::mulai_cari(QSqlQuery *query)
     //
     //temukan id_param by rute di tabel data_masuk
     //----------------------------------------------------------------------------------------------//
+    qDebug()<<"aye----"<<aye;
+    QStringList obrak = aye.split("/");
     QString qa;
     QStringList RChild;
     foreach ( int a, RuteList) {RChild.push_back(QString::number(a)); qDebug()<<a;}
@@ -108,11 +167,11 @@ void Tampil::mulai_cari(QSqlQuery *query)
     if(!query->exec(qa)){}
     else{while(query->next()){
             qDebug()<<"-"
-                    //  <<"rute"<<rute_[info_rute[0][i]]*/
                    <<"id_masuk"<<query->value("id").toInt()
                   <<"id_param"<<query->value("id_param").toInt()
                  <<"tipe_param"<<query->value("id_tipe_param").toInt()
                 <<"id_rute"<<query->value("id_rute").toInt();
+
                 info_tipe_data[0].push_back(query->value("id_rute").toInt());
                // info_tipe_data[1].push_back(query->value("id").toInt());
                 info_tipe_data[2].push_back(query->value("id_param").toInt());
@@ -155,6 +214,9 @@ void Tampil::mulai_cari(QSqlQuery *query)
 
 void Tampil::mulai_cari_server(QSqlQuery *query)
 {
+    //note harus di re write id rute yang sudah ada maupun yang belum ada dari refrensi array yang dikirim sama klient
+    //untuk mempermudah mengenali rute berdasarkan nama bukan id rute lama
+    qDebug()<<"mulai server";
     QString qu;
     QVector<int> id_rute;
     int last_id_rute=0;
@@ -168,6 +230,16 @@ void Tampil::mulai_cari_server(QSqlQuery *query)
     //
     for(int i=0; i<rute_.size(); i++){
         QString rute = (QString)rute_[i];
+        qu = QString("SELECT id FROM rute WHERE nama_rute='%1'").
+                arg(rute);
+        if(!query->exec(qu)) {qDebug()<< "ERROR:: " <<query->lastError().text();}
+        else{
+            while(query->next()){
+                 qDebug()<<"id_rute:"<<query->value("id").toInt() << rute;
+               //  for(int k=0; k<info_tipe_data->size(); k++)
+               //  if((QString)rute_.at(info_tipe_data[0][k]-1)==rute) qDebug()<<"rute:"<<rute<<info_tipe_data[1][k]<<info_tipe_data[2][k]<<info_tipe_data[3][k];
+            }
+        }
         qu = QString("INSERT INTO rute (nama_rute,id_database)"
                      " SELECT '%1',%2 WHERE NOT EXISTS (SELECT nama_rute,id_database FROM rute WHERE nama_rute='%3' AND id_database=%4)").
                 arg(rute,QString::number(id_database),
@@ -176,9 +248,9 @@ void Tampil::mulai_cari_server(QSqlQuery *query)
         else{
             while(query->next()){
                 id_rute.push_back(query->lastInsertId().toInt());
+                 qDebug()<<"id_rute:"<<query->lastInsertId().toInt()<<rute;
             }
         }
-
     }
    // QDateTime waktu2;
     qint64 date_2;
@@ -189,8 +261,9 @@ void Tampil::mulai_cari_server(QSqlQuery *query)
     //
     //mengurutkan id sesuai dengan nama id // mengecek ulang data
     for(int i=0; i<info_tipe_data[0].size(); i++){
+
         qDebug()<<"rute:"<<info_tipe_data[0][i] <<"|tiemstamp:"<< info_tipe_data[1][i] <<"|param:"<< info_tipe_data[2][i]
-                <<"|tipe:"<<info_tipe_data[3][i]<<"id_date  :" << info_tipe_data[4][i];
+                <<"|tipe:"<<info_tipe_data[3][i]<<"id_date  :" << info_tipe_data[4][i];// << rute_.at(info_tipe_data[0][i]-1);
        QString list_nama_asetku;
         list_nama_asetku+=QString::number(info_tipe_data[0][i]);//rute[info_tipe_data[0][i]];
         list_nama_asetku+="/";
@@ -198,7 +271,6 @@ void Tampil::mulai_cari_server(QSqlQuery *query)
         list2 = new QLabel(this);
         box2->addWidget(list2);
         list2->setText(list_nama_asetku);
-
     }
 
     //QDateTime waktu3;
@@ -268,6 +340,114 @@ void Tampil::mulai_cari_server(QSqlQuery *query)
     qDebug()<<"ovrall time="<<date_5-date_1<<" ms";
 }
 
+void Tampil::mulai_cari_server2(QSqlQuery *query){
+
+    qDebug()<<"mulai server2"<<rute_baru;
+    for(int k=0; k<6; k++) qDebug()<<"size:"<<data_[k].size();
+    for(int i=0; i<data_[0].size(); i++){
+        data_new[0].push_back(data_[0][i]);//id_rute lama
+        data_new[1].push_back(data_[1][i]);//id_param
+        data_new[2].push_back(data_[2][i]);//id_tipe_param
+        data_new[3].push_back(data_[3][i]);//id_rute
+        data_new[4].push_back(data_[4][i]);//timestamp
+//        data_new[5].push_back(data_[5][i]);//new id rute
+    }
+    qDebug()<<"salah?"<<rute_baru.size();
+
+    for(int i=0; i<rute_baru.size(); i++){
+        QString qu;
+        int id_rute_baru;
+        QString rute = (QString)rute_baru[i];
+        qu = QString("INSERT INTO rute (nama_rute,id_database)"
+                     " SELECT '%1',%2 WHERE NOT EXISTS (SELECT nama_rute,id_database FROM rute WHERE nama_rute='%3' AND id_database=%4)").
+                arg(rute,QString::number(id_database),
+                rute,QString::number(id_database));
+        if(!query->exec(qu)) {qDebug()<< "ERROR:: " <<query->lastError().text();}
+        else{
+            while(query->next()){
+                id_rute_baru=query->lastInsertId().toInt();
+                data_new[5].push_back(id_rute_baru);//new id rute
+                qDebug()<<"id_rute:"<<id_rute_baru<<rute;
+            }
+         qDebug()<<"salah 2? size"<<data_new[5].size();
+
+        qu = QString("SELECT id FROM rute WHERE nama_rute='%1'").
+                arg(rute);
+        if(!query->exec(qu)) {qDebug()<< "ERROR:: " <<query->lastError().text();}
+        else{
+            while(query->next()){
+                 id_rute_baru=query->value("id").toInt();
+                 data_new[5].push_back(id_rute_baru);//new id rute
+                 qDebug()<<"id_rute:"<<id_rute_baru <<rute;}
+
+        qDebug()<<"salah 3? size"<<data_new[5].size();
+//nanti saja insertnya 1
+                 QByteArray datax;
+                 datax.resize(500);
+//                 qu = QString("SELECT id FROM rute_isi WHERE id_rute=%1").arg(id_rute_baru);
+//                 if(!query->exec(qu)) {qDebug()<< "ERROR:: " <<query->lastError().text();}
+                 QString qa;
+                         qa.sprintf("INSERT INTO rute_isi (id_rute,id_tipe_param,id_last_param,kanal,param_setting,setting_rute)"
+                                    " SELECT :id_rute,:id_tipe_param,:id_last_param,:kanal,:param_setting,:setting_rute "
+                                    "WHERE NOT EXISTS (SELECT id_rute,id_last_param FROM rute_isi "
+                                    "WHERE id_rute=:id_rute AND id_last_param=:id_last_param)");
+                         query->exec("pragma synchronous = off;");
+                         query->prepare(qa);
+                         query->bindValue(":id_rute",id_rute_baru);
+                         query->bindValue(":id_tipe_param",data_[2][i]);
+                         query->bindValue(":id_last_param",data_[1][i]);
+                         query->bindValue(":kanal",1);
+                         query->bindValue(":param_setting",datax);
+                         query->bindValue(":setting_rute",datax);
+                         query->exec();
+                  qDebug()<<"salah2";
+                  qu = QString("SELECT id FROM data_41_tipe WHERE id_rute=%1 && data_timestamp=%2").arg(QString::number(id_rute_baru),QString::number(data_[4][i]));
+                  if(!query->exec(qu)) {qDebug()<< "ERROR:: " <<query->lastError().text();}
+                  else{while(query->next()){
+                       qDebug()<<"id--------"<<query->value("id").toInt()<<"<>"<<data_new[0].size();
+                       data_new[0].removeAt(0);
+                       data_new[1].removeAt(0);
+                       data_new[2].removeAt(0);
+                       data_new[3].removeAt(0);
+                       data_new[4].removeAt(0);
+                       data_new[5].removeAt(0);
+                      }}
+//                  QString tipe_data = get_table_name(data_[2][i]);
+//                  qa.sprintf("INSERT INTO %s (id_rute,data,flag_set_param,data_timestamp)"
+//                               " SELECT :id_rute,:data,:flag_set_param,:data_timestamp "
+//                               "WHERE NOT EXISTS (SELECT id_rute,data_timestamp FROM %s "
+//                               "WHERE id_rute=:id_rute AND data_timestamp=:data_timestamp)",
+//                                tipe_data.toUtf8().data(),tipe_data.toUtf8().data());
+//                                  query->exec("pragma synchronous = off;");
+//                                  query->prepare(qa);
+//                                  query->bindValue(":id_rute",id_rute_baru);
+//                                  query->bindValue(":data",all_data[i]);
+//                                  query->bindValue(":flag_set_param",0);
+//                                  query->bindValue(":data_timestamp",data_[4][i]);
+//                                  query->exec();
+
+ //-----------------------------------------------------------------------------//
+  //tampil
+                  qDebug()<<"size:"<<data_new[0].size();
+            }
+        }
+    }
+    if(data_new[0].size()!=0){
+         for(int i=0; i<data_new[0].size(); i++){
+            QString list_nama_asetku;
+             list_nama_asetku+=QString::number(data_new[5][i]);//rute[info_tipe_data[0][i]];
+             list_nama_asetku+="/";
+             list_nama_asetku+= QString::number(data_new[1][i]);
+             list2 = new QLabel(this);
+             box2->addWidget(list2);
+             list2->setText(list_nama_asetku);
+        }
+    }
+    else{
+        qDebug()<<"tidak ada data update";
+    }
+}
+
 QString Tampil::get_table_name(int tipe)
 {
     QString nama_tabel = QString("data_%1_tipe").arg(tipe);
@@ -282,7 +462,7 @@ void Tampil::on_pushButton_clicked()
 void Tampil::compare()
 {
     QSqlQuery querty(dbx);
-    mulai_cari_server(&querty);
+    mulai_cari_server2(&querty);
 }
 
 void Tampil::synchronize()

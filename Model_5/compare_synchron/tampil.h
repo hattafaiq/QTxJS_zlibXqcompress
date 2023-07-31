@@ -40,11 +40,13 @@ private:
     QLabel *list2;
     //--cari data berdasarkan urutan --//client
     void mulai_cari(QSqlQuery *query);
+    void mulai_cari2(QSqlQuery *query);
     int id_database;
     QStringList jumlah_rute;
     QStringList nama_tidakada;
     //--cari data berdasarkan urutan --//server
     void mulai_cari_server(QSqlQuery *query);
+    void mulai_cari_server2(QSqlQuery *query);
     void compare();
     void synchronize();
     QString get_table_name(int tipe);
@@ -53,6 +55,9 @@ private:
     QVector<int> update_info[4];
     QVector<int> update_isi_rute[4];
     QByteArrayList all_data;
+    QStringList rute_baru;
+     QVector<int> data_[5];
+     QVector<int> data_new[6];
 };
 
 #endif // TAMPIL_H
